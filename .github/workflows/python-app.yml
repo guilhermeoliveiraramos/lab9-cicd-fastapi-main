@@ -3,11 +3,12 @@ name: Pipeline CI/CD Homologacao e Producao
 on:
   push:
     branches:
-      - develop
-      - main
+      - homologacao
+      - master
+
 
 env:
-  IMAGE_NAME: brenosilva2008/lab9-fastapi
+  IMAGE_NAME: guilhermeoliveiraramos/lab9-fastapi
 
 jobs:
   build:
@@ -29,7 +30,7 @@ jobs:
 
   deploy-homologacao:
     needs: build
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/homologacao'
     runs-on: ubuntu-latest
     steps:
       - name: Deploy via SSH em Homologacao
@@ -46,7 +47,7 @@ jobs:
 
   Deploy_Producao:
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     environment: production
     runs-on: ubuntu-latest
     steps:
